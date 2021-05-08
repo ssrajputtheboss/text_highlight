@@ -36,68 +36,62 @@ class HighlightTextModeNotFoundException implements Exception {
 
 
 class HighlightText extends StatelessWidget{
-  String _text , _mode;
-  double _fontSize, _padding;
-  TextOverflow richTextOverflow;
-  bool softWrap;
-  HighlightTheme _theme = HighlightTheme.defaultDarkTheme();
-  var _modes = [
-    'python' , 'java' , 'javascript' , 'text' , 'auto' , 'c' , 'cpp' , 'c++' , 'csharp' , 'c#' , 'go' , 'r' , 'swift' ,
-  ];
+  final String text , mode;
+  final double fontSize, padding;
+  final TextOverflow richTextOverflow;
+  final bool softWrap;
+  final HighlightTheme theme;
 
-  HighlightText(String text, {double fontSize = 15,
-    double padding = 0,
-    HighlightTheme theme,
-    String mode = HighlightTextModes.AUTO,
+  HighlightText(this.text, {this.fontSize = 20,
+    this.padding = 0,
+    this.theme = const  HighlightTheme(),
+    this.mode = HighlightTextModes.AUTO,
     this.richTextOverflow = TextOverflow.clip,
     this.softWrap = true
-  }) {
-    _fontSize = fontSize;
-    _padding = padding;
-    _theme = theme == null ? _theme : theme;
-    _text = text;
-    _mode = mode;
-  }
+  });
   setMode(){
-    if(_mode == HighlightTextModes.AUTO){
-      var lines = _text.split('\n');
+    final _modes = const [
+      'python' , 'java' , 'javascript' , 'text' , 'auto' , 'c' , 'cpp' , 'c++' , 'csharp' , 'c#' , 'go' , 'r' , 'swift' ,
+    ];
+    String text = this.text;
+    if(mode == HighlightTextModes.AUTO){
+      var lines = text.split('\n');
       if(lines.length<=1){
-        _mode = HighlightTextModes.TEXT;
-        return Text(_text , style: TextStyle( fontSize:  _fontSize,color: _theme.textColor ), );
+        return Text(text , style: TextStyle( fontSize:  fontSize,color: theme.textColor ), );
       }
       String firstLine = lines[0];
       String mode = firstLine.replaceAll(':', '').trim().toLowerCase();
-      _mode = _modes.contains(mode) ? mode : HighlightTextModes.TEXT;
-      if(_modes.contains(mode))_text = _text.replaceFirst(firstLine+'\n','' );
+      mode = _modes.contains(mode) ? mode : HighlightTextModes.TEXT;
+      if(_modes.contains(mode))text = text.replaceFirst(firstLine+'\n','' );
     }
-    if(_mode==HighlightTextModes.PYTHON)
-      return PyText(_text, fontSize: _fontSize, theme: _theme, richTextOverflow: richTextOverflow, softWrap: softWrap,);
-    if(_mode==HighlightTextModes.JAVA)
-      return JavaText(_text ,fontSize: _fontSize, theme: _theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
-    if(_mode==HighlightTextModes.JAVASCRIPT)
-      return JavaScriptText(_text , fontSize: _fontSize, theme: _theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
-    if(_mode==HighlightTextModes.C)
-      return CText(_text ,fontSize: _fontSize, theme: _theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
-    if(_mode==HighlightTextModes.CPP || _mode=='c++')
-      return CppText(_text ,fontSize: _fontSize,  theme: _theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
-    if(_mode==HighlightTextModes.CSHARP || _mode=='c#')
-      return CSharpText(_text ,fontSize: _fontSize,  theme: _theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
-    if(_mode==HighlightTextModes.GO)
-      return GoText(_text ,fontSize: _fontSize, theme: _theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
-    if(_mode==HighlightTextModes.R)
-      return RText(_text ,fontSize: _fontSize,  theme: _theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
-    if(_mode==HighlightTextModes.SWIFT)
-      return SwiftText(_text ,fontSize: _fontSize,  theme: _theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
-    return Text(_text ,overflow: richTextOverflow, softWrap: softWrap, style: TextStyle( fontSize:  _fontSize,color: _theme.textColor ), );
+    if(mode==HighlightTextModes.PYTHON)
+      return PyText(text, fontSize: fontSize, theme: theme, richTextOverflow: richTextOverflow, softWrap: softWrap,);
+    if(mode==HighlightTextModes.JAVA)
+      return JavaText(text ,fontSize: fontSize, theme: theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
+    if(mode==HighlightTextModes.JAVASCRIPT)
+      return JavaScriptText(text , fontSize: fontSize, theme: theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
+    if(mode==HighlightTextModes.C)
+      return CText(text ,fontSize: fontSize, theme: theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
+    if(mode==HighlightTextModes.CPP || mode=='c++')
+      return CppText(text ,fontSize: fontSize,  theme:theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
+    if(mode==HighlightTextModes.CSHARP || mode=='c#')
+      return CSharpText(text ,fontSize: fontSize,  theme: theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
+    if(mode==HighlightTextModes.GO)
+      return GoText(text ,fontSize: fontSize, theme: theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
+    if(mode==HighlightTextModes.R)
+      return RText(text ,fontSize: fontSize,  theme: theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
+    if(mode==HighlightTextModes.SWIFT)
+      return SwiftText(text ,fontSize: fontSize,  theme: theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
+    return Text(text ,overflow: richTextOverflow, softWrap: softWrap, style: TextStyle( fontSize:  fontSize,color: theme.textColor ), );
   }
 
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.all(_padding),
+        padding: EdgeInsets.all(padding),
         decoration: BoxDecoration(
-          color: _theme.backgroundColor(),
+          color: theme.backgroundColor,
         ),
         child: setMode()
     );

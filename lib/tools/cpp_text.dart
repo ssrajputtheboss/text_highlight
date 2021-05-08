@@ -2,31 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:text_highlight/tools/highlight_theme.dart';
 
 class CppText extends StatelessWidget{
-  String _text;
-  double _fontSize;
-  TextOverflow richTextOverflow;
-  bool softWrap;
-  HighlightTheme _theme = HighlightTheme.defaultDarkTheme();
-  CppText(String text,{double fontSize=20,
-    HighlightTheme theme,
+  final String text;
+  final double fontSize;
+  final TextOverflow richTextOverflow;
+  final bool softWrap;
+  final HighlightTheme theme ;
+  CppText(this.text,{this.fontSize=20,
+    this.theme = const HighlightTheme(),
     this.richTextOverflow = TextOverflow.clip,
     this.softWrap = false
-  }){
-    _fontSize = fontSize;
-    _theme = theme == null ? _theme  : theme;
-    _text = text.replaceAll('\x00', '').replaceAll('\t', '    ');
-  }
+  });
 
   TextStyle getTextStyle(String token , spans , lastToken){
+
     var keywords = [
       'alignas', 'decltype', 'namespace', 'struct', 'alignof', 'default', 'new', 'switch',
       'and', 'delete', 'noexcept', 'template', 'and_eq', 'do', 'not', 'this', 'asm', 'double',
       'not_eq', 'thread_local', 'auto', 'dynamic_cast', 'nullptr', 'throw', 'bitand', 'else',
       'operator', 'true', 'bitor', 'enum', 'or', 'try', 'bool', 'explicit', 'or_eq', 'typedef',
       'break', 'export', 'private', 'typeid', 'case', 'extern', 'protected', 'typename', 'catch',
-      'false', 'public', 'union', 'char', 'float', 'register', 'unsigned', 'char16_t', 'for',
-      'reinterpret_cast', 'using', 'char32_t', 'friend', 'return', 'virtual', 'class', 'goto',
-      'short', 'void', 'compl', 'if', 'signed', 'volatile', 'const', 'inline', 'sizeof', 'wchar_t',
+      'false', 'public', 'union', 'char', 'float', 'register', 'unsigned', 'char16t', 'for',
+      'reinterpret_cast', 'using', 'char32t', 'friend', 'return', 'virtual', 'class', 'goto',
+      'short', 'void', 'compl', 'if', 'signed', 'volatile', 'const', 'inline', 'sizeof', 'wchart',
       'constexpr', 'int', 'static', 'while', 'const_cast', 'long', 'static_assert', 'xor', 'continue',
       'mutable', 'static_cast', 'xor_eq'
     ]
@@ -39,25 +36,25 @@ class CppText extends StatelessWidget{
     var re = new RegExp(r'\w+');
     if(re.stringMatch(token) == token){
       if (keywords.contains(token)) {
-        return _theme.keyword();
+        return theme.keyword;
       } else if (specialIdentifiers.contains(token)){
         if(lastToken.contains('#')){
           spans.removeAt(spans.length-1);
-          spans.add(TextSpan(text: lastToken, style: _theme.specialIdentifier()));
+          spans.add(TextSpan(text: lastToken, style: theme.specialIdentifier));
         }
-        return _theme.specialIdentifier();
+        return theme.specialIdentifier;
       }
       else if((new RegExp(r'\d+')).stringMatch(token) == token)
-        return _theme.numberConstant();
-      return _theme.identifier();
+        return theme.numberConstant;
+      return theme.identifier;
     }else{
       if((new RegExp(r'(//.*)|(/\*(.|\n)*?\*/)')).stringMatch(token) == token)
-        return _theme.comment();
+        return theme.comment;
       else if((new RegExp(r'"(\\\n|\\"|[^"\n])*"' + '|' + r"'(\\\n|\\'|[^'\n])*'")).stringMatch(token) == token)
-        return _theme.stringConstant();
+        return theme.stringConstant;
       else if(operators.contains(token.trim()))
-        return _theme.operator();
-      return _theme.specialCharacter();
+        return theme.operator;
+      return theme.specialCharacter;
     }
   }
 
@@ -97,8 +94,8 @@ class CppText extends StatelessWidget{
       overflow: richTextOverflow,
       text: TextSpan(
           text: '',
-          style: TextStyle(fontSize: _fontSize),
-          children: createSpans(_text)
+          style: TextStyle(fontSize: fontSize),
+          children: createSpans(text)
       ),
     );
   }

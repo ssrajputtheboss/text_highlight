@@ -2,22 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:text_highlight/tools/highlight_theme.dart';
 
 class CSharpText extends StatelessWidget{
-  String _text;
-  double _fontSize;
-  TextOverflow richTextOverflow;
-  bool softWrap;
-  HighlightTheme _theme = HighlightTheme.defaultDarkTheme();
-  CSharpText(String text,{double fontSize=20,
-    HighlightTheme theme,
+  final String text;
+  final double fontSize;
+  final TextOverflow richTextOverflow;
+  final bool softWrap;
+  final HighlightTheme theme ;
+  CSharpText(this.text,{this.fontSize=20,
+    this.theme = const HighlightTheme(),
     this.richTextOverflow = TextOverflow.clip,
     this.softWrap = false
-  }){
-    _fontSize = fontSize;
-    _theme = theme == null ? _theme  : theme;
-    _text = text.replaceAll('\x00', '').replaceAll('\t', '    ');
-  }
+  });
 
   TextStyle getTextStyle(String token, spans, lastToken){
+
     var keywords = [
        'abstract', 'as', 'base', 'bool', 'break', 'byte', 'case', 'catch', 'char', 'checked', 'class', 'const', 'continue',
         'decimal', 'default', 'delegate', 'do', 'double', 'else', 'enum', 'event', 'explicit', 'extern', 'false', 'finally',
@@ -36,26 +33,26 @@ class CSharpText extends StatelessWidget{
     var re = new RegExp(r'\w+');
     if(re.stringMatch(token) == token){
       if (keywords.contains(token)) {
-        return _theme.keyword();
+        return theme.keyword;
       } else if (specialIdentifiers.contains(token))
-        return _theme.specialIdentifier();
+        return theme.specialIdentifier;
       else if((new RegExp(r'\d+')).stringMatch(token) == token)
-        return _theme.numberConstant();
-      return _theme.identifier();
+        return theme.numberConstant;
+      return theme.identifier;
     }else{
       if((new RegExp(r'(//.*)|(/\*(.|\n)*?\*/)')).stringMatch(token) == token)
-        return _theme.comment();
+        return theme.comment;
       else if((new RegExp(r'"(\\\n|\\"|[^"\n])*"' + '|' + r"'(\\\n|\\'|[^'\n])*'" + '|' + r'@"(\\"|[^"]|\n)*"')).stringMatch(token) == token)
-        return _theme.stringConstant();
+        return theme.stringConstant;
       else if(operators.contains(token.trim()))
-        return _theme.operator();
+        return theme.operator;
       var lt = token.trimLeft();
       if(lt.length>0)
         if(lt[0]=="("  && (new RegExp(r'\w+')).stringMatch(lastToken) == lastToken && !(specialIdentifiers.contains(lastToken) || keywords.contains(lastToken))){//it is a function
           spans.removeAt(spans.length-1);
-          spans.add(TextSpan(text: lastToken, style: _theme.functionIdentifier()));
+          spans.add(TextSpan(text: lastToken, style: theme.functionIdentifier));
         }
-      return _theme.specialCharacter();
+      return theme.specialCharacter;
     }
   }
 
@@ -95,8 +92,8 @@ class CSharpText extends StatelessWidget{
       overflow: richTextOverflow,
       text: TextSpan(
           text: '',
-          style: TextStyle(fontSize: _fontSize),
-          children: createSpans(_text)
+          style: TextStyle(fontSize: fontSize),
+          children: createSpans(text)
       ),
     );
   }

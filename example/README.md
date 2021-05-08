@@ -190,7 +190,7 @@ console.log('Hello world')
 ## custom HighlightTheme example
 
 ```dart
-var MyTheme = HighlightTheme(
+var myTheme = HighlightTheme(
     bgColor: Colors.brown,
     keywordStyle: TextStyle(color: Colors.red),
     specialIdentifiersStyle: TextStyle(color: Colors.black87),
@@ -207,7 +207,7 @@ var MyTheme = HighlightTheme(
   HighlightText(
     'for i in range(10):\n\tprint("gg!" , end = "\\n")',
     mode: HighlightTextModes.PYTHON,
-    theme: MyTheme,
+    theme: myTheme,
     fontSize: 20,
     padding: 1,
   );

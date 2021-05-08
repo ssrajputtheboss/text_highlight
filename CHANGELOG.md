@@ -1,3 +1,6 @@
-## [0.0.1] - 20-02-2021.
+## [1.0.0] - 20-02-2021.
 
-* version 0.0.1 of text_highlight . 
+* version 1.0.0 of text_highlight . 
+* memory optimizations
+* followed dart conventions
+

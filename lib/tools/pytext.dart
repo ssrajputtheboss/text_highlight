@@ -2,23 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:text_highlight/tools/highlight_theme.dart';
 
 class PyText extends StatelessWidget{
-  String _text;
-  double _fontSize;
-  TextOverflow richTextOverflow;
-  bool softWrap;
-  HighlightTheme _theme = HighlightTheme.defaultDarkTheme();
-  PyText(String text,{fontSize=20,
-    HighlightTheme theme,
+  final String text;
+  final double fontSize;
+  final TextOverflow richTextOverflow;
+  final bool softWrap;
+  final HighlightTheme theme ;
+
+  PyText(this.text,{this.fontSize=20,
+    this.theme = const HighlightTheme(),
     this.richTextOverflow = TextOverflow.clip,
     this.softWrap = true
-  }){
-    _fontSize = fontSize;
-    _theme = theme == null ? _theme  : theme;
-    _text = text.replaceAll('\x00', '').replaceAll('\t', '    ');
-  }
+  });
 
   TextStyle getTextStyle(String token , spans , lastToken){
-    var keywords = [
+    var keywords = const [
       'False',	'await',	'else',	'import',	'pass',
       'None',	'break',	'except',	'in'	,'raise',
       'True',	'class',	'finally',	'is',	'return',
@@ -27,7 +24,7 @@ class PyText extends StatelessWidget{
       'assert',	'del',	'global',	'not',	'with',
       'async'	,'elif'	,'if',	'or'	,'yield',
     ];
-    var defaultFunctions = ["abs", "all", "any", "bin", "bool", "bytearray", "callable", "chr",
+    var defaultFunctions =const ["abs", "all", "any", "bin", "bool", "bytearray", "callable", "chr",
       "classmethod", "compile", "complex", "delattr", "dict", "dir", "divmod",
       "enumerate", "eval", "filter", "float", "format", "frozenset",
       "getattr", "globals", "hasattr", "hash", "help", "hex", "id",
@@ -38,30 +35,30 @@ class PyText extends StatelessWidget{
       "sorted", "staticmethod", "str", "sum", "super", "tuple",
       "type", "vars", "zip", "__import__", "NotImplemented",
       "Ellipsis", "__debug__"];
-    var operators = ['+','-','*','/','//','%','^','&','|','~','=','<','>','>>','<<','**','!=','<=','>=','+=','-=','*=','==','/=','//=','%=','|=','&=','^=','>>=','<<=','**='];
+    var operators =const ['+','-','*','/','//','%','^','&','|','~','=','<','>','>>','<<','**','!=','<=','>=','+=','-=','*=','==','/=','//=','%=','|=','&=','^=','>>=','<<=','**='];
     var re = new RegExp(r'\w+');
     if(re.stringMatch(token) == token){
       if (keywords.contains(token)) {
-        return _theme.keyword();
+        return theme.keyword;
       } else if (defaultFunctions.contains(token))
-        return _theme.specialIdentifier();
+        return theme.specialIdentifier;
       else if((new RegExp(r'\d+')).stringMatch(token) == token)
-        return _theme.numberConstant();
-      return _theme.identifier();
+        return theme.numberConstant;
+      return theme.identifier;
     }else{
       if((new RegExp(r'#.*')).stringMatch(token) == token)
-        return _theme.comment();
+        return theme.comment;
       else if((new RegExp(r'''('(.|\n)*')|("(.|\n)*")''')).stringMatch(token) == token)
-        return _theme.stringConstant();
+        return theme.stringConstant;
       else if(operators.contains(token.trim()))
-        return _theme.operator();
+        return theme.operator;
       var lt = token.trimLeft();
       if(lt.length>0)
         if(lt[0]=="("  && (new RegExp(r'\w+')).stringMatch(lastToken) == lastToken && !(defaultFunctions.contains(lastToken) || keywords.contains(lastToken))){//it is a function
           spans.removeAt(spans.length-1);
-          spans.add(TextSpan(text: lastToken, style: _theme.functionIdentifier()));
+          spans.add(TextSpan(text: lastToken, style: theme.functionIdentifier));
         }
-      return _theme.specialCharacter();
+      return theme.specialCharacter;
     }
   }
 
@@ -89,7 +86,7 @@ class PyText extends StatelessWidget{
         lt = lt==''?' ':lt;
         if(!lt[lt.length-1].contains(new RegExp(r'\+|=|\*|\(')) && (new RegExp(r'"""(.|\n)*"""'+'|'+r"'''(.|\n)*'''").hasMatch(lst[j]))){
           //it is a multiline comment
-          spans.add(TextSpan(text: x,style: _theme.multilineComment()));
+          spans.add(TextSpan(text: x,style: theme.multilineComment));
         }else
           spans.add(TextSpan(text: x,style: getTextStyle(lst[j] , spans , lastToken)));
         j++;
@@ -111,8 +108,8 @@ class PyText extends StatelessWidget{
       overflow: richTextOverflow,
       text: TextSpan(
           text: '',
-          style: TextStyle(fontSize: _fontSize),
-          children: createSpans(_text)
+          style: TextStyle(fontSize: fontSize),
+          children: createSpans(text)
       ),
     );
   }

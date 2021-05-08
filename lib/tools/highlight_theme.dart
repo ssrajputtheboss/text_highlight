@@ -19,40 +19,27 @@ class HighlightTheme {
     this.bgColor = const Color.fromRGBO(20,20,20,1)
 });
 
-  Color backgroundColor(){
-    return bgColor;
-  }
-  TextStyle keyword(){
-    return keywordStyle;
-  }
-  TextStyle comment(){
-    return commentStyle;
-  }
-  TextStyle multilineComment(){
-    return multiLineCommentStyle;
-  }
-  TextStyle specialIdentifier(){
-    return specialIdentifiersStyle;
-  }
-  TextStyle numberConstant(){
-    return numberConstantStyle;
-  }
-  TextStyle stringConstant(){
-    return stringConstantStyle;
-  }
-  TextStyle operator(){
-    return operatorStyle;
-  }
-  TextStyle specialCharacter(){
-    return specialCharacterStyle;
-  }
-  TextStyle identifier(){
-    return identifierStyle;
-  }
+  Color get backgroundColor => bgColor;
 
-  TextStyle functionIdentifier(){
-    return functionIdentifierStyle;
-  }
+  TextStyle get keyword => keywordStyle;
+
+  TextStyle get comment => commentStyle;
+
+  TextStyle get multilineComment => multiLineCommentStyle;
+
+  TextStyle get specialIdentifier => specialIdentifiersStyle;
+
+  TextStyle get numberConstant => numberConstantStyle;
+
+  TextStyle get stringConstant => stringConstantStyle;
+
+  TextStyle get operator => operatorStyle;
+
+  TextStyle get specialCharacter => specialCharacterStyle;
+
+  TextStyle get identifier => identifierStyle;
+
+  TextStyle get functionIdentifier => functionIdentifierStyle;
 
   static HighlightTheme defaultDarkTheme(){
     return const HighlightTheme();
