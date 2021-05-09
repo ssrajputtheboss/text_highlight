@@ -54,6 +54,7 @@ class HighlightText extends StatelessWidget{
       'python' , 'java' , 'javascript' , 'text' , 'auto' , 'c' , 'cpp' , 'c++' , 'csharp' , 'c#' , 'go' , 'r' , 'swift' ,
     ];
     String text = this.text;
+    String mode = this.mode;
     if(mode == HighlightTextModes.AUTO){
       var lines = text.split('\n');
       if(lines.length<=1){

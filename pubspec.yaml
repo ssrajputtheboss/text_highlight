@@ -1,6 +1,6 @@
 name: text_highlight
-description: A richtext widget for highlighting programming languages like python , c++ , c# etc. Currently supports 9 programming languages c, c++, c#, go, java, javascript, python, r, swift. The widget is fully customizable , you can create theme of your own using HighlightTheme class , by default theme is dark mode.
-version: 1.0.0
+description: A richtext widget for highlighting programming languages like python , c++ , c# etc. Currently supports 9 programming languages c, c++, c#, go, java, javascript, python, r, swift.
+version: 1.0.1
 
 homepage: https://github.com/ssrajputtheboss/text_highlight
 
