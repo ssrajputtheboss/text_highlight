@@ -61,8 +61,8 @@ class HighlightText extends StatelessWidget{
         return Text(text , style: TextStyle( fontSize:  fontSize,color: theme.textColor ), );
       }
       String firstLine = lines[0];
-      String mode = firstLine.replaceAll(':', '').trim().toLowerCase();
-      mode = _modes.contains(mode) ? mode : HighlightTextModes.TEXT;
+      String modeT = firstLine.replaceAll(':', '').trim().toLowerCase();
+      mode = _modes.contains(mode) ? modeT : HighlightTextModes.TEXT;
       if(_modes.contains(mode))text = text.replaceFirst(firstLine+'\n','' );
     }
     if(mode==HighlightTextModes.PYTHON)
