@@ -1,5 +1,8 @@
-## [1.0.1] - 09-05-2021.
+## [1.0.3] - 23-05-2021.
 
-* version 1.0.1 of text_highlight . 
-* Auto mode error fixed
+* version 1.0.3 of text_highlight . 
+* Upgraded to Null Safety
+* added dart
+* example folder updated
+* readme updated
 
