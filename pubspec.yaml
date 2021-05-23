@@ -1,11 +1,11 @@
 name: text_highlight
-description: A richtext widget for highlighting programming languages like python , c++ , c# etc. Currently supports 9 programming languages c, c++, c#, go, java, javascript, python, r, swift.
-version: 1.0.1
+description: A richtext widget for syntax highlighting programming languages like python , c++ , c# etc. Supports upto 10 languages.
+version: 1.0.3
 
 homepage: https://github.com/ssrajputtheboss/text_highlight
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:

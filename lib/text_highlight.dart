@@ -11,6 +11,7 @@ import 'package:text_highlight/tools/javascript_text.dart';
 import 'package:text_highlight/tools/pytext.dart';
 import 'package:text_highlight/tools/r_text.dart';
 import 'package:text_highlight/tools/swift_text.dart';
+import 'package:text_highlight/tools/dart_text.dart';
 
 
 
@@ -24,6 +25,7 @@ class HighlightTextModes {
   static const GO = 'go';
   static const R = 'r';
   static const SWIFT = 'swift';
+  static const DART = 'dart';
   static const TEXT = 'text';
   static const AUTO = 'auto';
 }
@@ -51,7 +53,7 @@ class HighlightText extends StatelessWidget{
   });
   setMode(){
     final _modes = const [
-      'python' , 'java' , 'javascript' , 'text' , 'auto' , 'c' , 'cpp' , 'c++' , 'csharp' , 'c#' , 'go' , 'r' , 'swift' ,
+      'python' , 'java' , 'javascript' , 'text' , 'auto' , 'c' , 'cpp' , 'c++' , 'csharp' , 'c#' , 'go' , 'r' , 'swift' , 'dart'
     ];
     String text = this.text;
     String mode = this.mode;
@@ -83,6 +85,8 @@ class HighlightText extends StatelessWidget{
       return RText(text ,fontSize: fontSize,  theme: theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
     if(mode==HighlightTextModes.SWIFT)
       return SwiftText(text ,fontSize: fontSize,  theme: theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
+    if(mode==HighlightTextModes.DART)
+      return DartText(text ,fontSize: fontSize,  theme: theme,richTextOverflow: richTextOverflow, softWrap: softWrap,);
     return Text(text ,overflow: richTextOverflow, softWrap: softWrap, style: TextStyle( fontSize:  fontSize,color: theme.textColor ), );
   }
 

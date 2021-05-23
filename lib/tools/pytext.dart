@@ -73,15 +73,15 @@ class PyText extends StatelessWidget{
     var lst = [];
     var r = new RegExp(rc + '|' + rs + '|' + r'#.*');
     r.allMatches(text).forEach((i) {
-      text = text.replaceFirst(i.group(0), '\x00');
+      text = text.replaceFirst(i.group(0)!, '\x00');
       lst.add(i.group(0));
     });
     var  re = new RegExp(r'(\x00)|([^\x00!%\+\=\-\*/\&\^\|~\w])+|((\w)+)|[\s!%\+\=\-\*/\&\^\|~]+');
     int j=0;
-    var lastToken = '';
+    String lastToken = '';
     re.allMatches(text).forEach((i) {
-      if(i.group(0).contains('\x00')){
-        var x = i.group(0).replaceFirst('\x00', lst[j]);
+      if(i.group(0)!.contains('\x00')){
+        var x = i.group(0)!.replaceFirst('\x00', lst[j]);
         var lt = lastToken.trimRight();
         lt = lt==''?' ':lt;
         if(!lt[lt.length-1].contains(new RegExp(r'\+|=|\*|\(')) && (new RegExp(r'"""(.|\n)*"""'+'|'+r"'''(.|\n)*'''").hasMatch(lst[j]))){
@@ -91,9 +91,9 @@ class PyText extends StatelessWidget{
           spans.add(TextSpan(text: x,style: getTextStyle(lst[j] , spans , lastToken)));
         j++;
       }else {
-        spans.add(TextSpan(text: i.group(0), style: getTextStyle(i.group(0) , spans , lastToken)));
+        spans.add(TextSpan(text: i.group(0), style: getTextStyle(i.group(0)! , spans , lastToken)));
       }
-      lastToken = i.group(0);
+      lastToken = i.group(0)!;
      // print(i.group(0));
     });
     return  spans;
